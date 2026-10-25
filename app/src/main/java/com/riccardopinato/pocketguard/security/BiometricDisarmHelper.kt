@@ -8,8 +8,7 @@ import androidx.fragment.app.FragmentActivity
 class BiometricDisarmHelper(
     private val activity: FragmentActivity
 ) {
-    fun canAuthenticate()Peo 
-lean =
+    fun canAuthenticate(): Boolean =
         BiometricManager.from(activity).canAuthenticate(
             BiometricManager.Authenticators.BIOMETRIC_STRONG
         ) == BiometricManager.BIOMETRIC_SUCCESS
