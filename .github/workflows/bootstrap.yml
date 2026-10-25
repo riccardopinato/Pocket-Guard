@@ -28,7 +28,8 @@ jobs:
           test -f app/build.gradle.kts
           test -f app/src/main/java/com/riccardopinato/pocketguard/service/PocketGuardService.kt
           rm -rf .bootstrap
-          rm -f .github/workflows/bootstrap.yml
+          rm -rf .github/workflows
+          mkdir -p .github/workflows
 
       - name: Commit canonical source
         shell: bash
