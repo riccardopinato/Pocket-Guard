@@ -29,7 +29,9 @@ private enum class Page {
     SETTINGS,
     SECURITY,
     HISTORY,
-    DIAGNOSTICS
+    DIAGNOSTICS,
+    PRO,
+    PRIVACY
 }
 
 @Composable
@@ -37,11 +39,13 @@ fun PocketGuardApp(
     viewModel: PocketGuardViewModel,
     biometricHelper: BiometricDisarmHelper,
     onStartRequested: () -> Unit,
+    onBuyProRequested: () -> Unit,
     onFlashEnableRequested: () -> Unit
 ) {
     var page by rememberSaveable { mutableStateOf(Page.HOME) }
 
     val settings by viewModel.settings.collectAsStateWithLifecycle()
+    val billing by viewModel.billing.collectAsStateWithLifecycle()
     val onboardingCompleted by viewModel.onboardingCompleted.collectAsStateWithLifecycle()
     val state by viewModel.guardState.collectAsStateWithLifecycle()
     val armed by viewModel.isArmed.collectAsStateWithLifecycle()
@@ -70,8 +74,9 @@ fun PocketGuardApp(
                 modifier = Modifier.padding(horizontal = 18.dp, vertical = 16.dp),
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
-                PocketGuardHeader(
+                PockSecureHeader(
                     currentPage = page,
+                    isPro = billing.isPro,
                     onPageSelected = { page = it }
                 )
 
@@ -97,6 +102,7 @@ fun PocketGuardApp(
                         contentPadding = PaddingValues(top = 16.dp, bottom = 24.dp),
                         settings = settings,
                         capabilities = viewModel.capabilities,
+                        isPro = billing.isPro,
                         onMode = viewModel::setMode,
                         onJourney = viewModel::setJourney,
                         onSensitivity = viewModel::setSensitivity,
@@ -109,14 +115,16 @@ fun PocketGuardApp(
                         },
                         onBiometric = viewModel::setBiometric,
                         onReliability = viewModel::setReliability,
-                        onTestAlarm = viewModel::testAlarm
+                        onTestAlarm = viewModel::testAlarm,
+                        onPro = { page = Page.PRO },
+                        onPrivacy = { page = Page.PRIVACY }
                     )
 
                     Page.SECURITY -> SecurityScreen(
                         contentPadding = PaddingValues(top = 16.dp, bottom = 24.dp),
                         hasPin = hasPin,
                         alarmOrArmed = armed || state == GuardState.ALARM,
-                        biometricEnabled = settings.biometricEnabled,
+                        biometricEnabled = settings.biometricEnabled && billing.isPro,
                         biometricAvailable = biometricHelper.canAuthenticate(),
                         onSetPin = viewModel::setPin,
                         onVerifyAndDisarm = viewModel::verifyPinAndDisarm,
@@ -131,7 +139,9 @@ fun PocketGuardApp(
                     Page.HISTORY -> HistoryScreen(
                         contentPadding = PaddingValues(top = 16.dp, bottom = 24.dp),
                         events = history,
-                        onClear = viewModel::clearHistory
+                        isPro = billing.isPro,
+                        onClear = viewModel::clearHistory,
+                        onPro = { page = Page.PRO }
                     )
 
                     Page.DIAGNOSTICS -> DiagnosticsScreen(
@@ -140,6 +150,17 @@ fun PocketGuardApp(
                         calibration = calibration,
                         mode = settings.mode
                     )
+
+                    Page.PRO -> PaywallScreen(
+                        contentPadding = PaddingValues(top = 16.dp, bottom = 24.dp),
+                        billing = billing,
+                        onBuy = onBuyProRequested,
+                        onRestore = viewModel::restorePurchases
+                    )
+
+                    Page.PRIVACY -> PrivacyScreen(
+                        contentPadding = PaddingValues(top = 16.dp, bottom = 24.dp)
+                    )
                 }
             }
         }
@@ -147,8 +168,9 @@ fun PocketGuardApp(
 }
 
 @Composable
-private fun PocketGuardHeader(
+private fun PockSecureHeader(
     currentPage: Page,
+    isPro: Boolean,
     onPageSelected: (Page) -> Unit
 ) {
     Column(verticalArrangement = Arrangement.spacedBy(14.dp)) {
@@ -158,7 +180,7 @@ private fun PocketGuardHeader(
         ) {
             Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                 Text(
-                    "Pocket Guard",
+                    "PockSecure",
                     style = MaterialTheme.typography.headlineMedium,
                     fontWeight = FontWeight.Bold
                 )
@@ -181,20 +203,38 @@ private fun PocketGuardHeader(
                 .horizontalScroll(rememberScrollState()),
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            PageChip("Home", currentPage == Page.HOME) { onPageSelected(Page.HOME) }
-            PageChip("Impostazioni", currentPage == Page.SETTINGS) { onPageSelected(Page.SETTINGS) }
-            PageChip("Sicurezza", currentPage == Page.SECURITY) { onPageSelected(Page.SECURITY) }
-            PageChip("Cronologia", currentPage == Page.HISTORY) { onPageSelected(Page.HISTORY) }
-            PageChip("Diagnostica", currentPage == Page.DIAGNOSTICS) { onPageSelected(Page.DIAGNOSTICS) }
+            PageChip("Home", currentPage == Page.HOME) {
+                onPageSelected(Page.HOME)
+            }
+            PageChip("Impostazioni", currentPage == Page.SETTINGS) {
+                onPageSelected(Page.SETTINGS)
+            }
+            PageChip("Sicurezza", currentPage == Page.SECURITY) {
+                onPageSelected(Page.SECURITY)
+            }
+            PageChip("Cronologia", currentPage == Page.HISTORY) {
+                onPageSelected(Page.HISTORY)
+            }
+            PageChip(
+                if (isPro) "Pro ✓" else "Pro",
+                currentPage == Page.PRO
+            ) {
+                onPageSelected(Page.PRO)
+            }
+            PageChip("Diagnostica", currentPage == Page.DIAGNOSTICS) {
+                onPageSelected(Page.DIAGNOSTICS)
+            }
         }
     }
 }
 
 private fun pageSubtitle(page: Page): String =
     when (page) {
-        Page.HOME -> "Protezione smart per tasca e borsa"
+        Page.HOME -> "Protezione smart anti-pickpocket"
         Page.SETTINGS -> "Protezione, Journey Guard e allarme"
         Page.SECURITY -> "PIN locale e biometria"
         Page.HISTORY -> "Eventi recenti della protezione"
         Page.DIAGNOSTICS -> "Sensori e calibrazione del dispositivo"
+        Page.PRO -> "Sblocco Lifetime senza abbonamento"
+        Page.PRIVACY -> "Dati locali e trasparenza"
     }
