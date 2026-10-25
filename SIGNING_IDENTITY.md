@@ -1,4 +1,4 @@
-# Pocket Guard signing identity
+# PockSecure signing identity
 
 Public certificate fingerprint used by the production/direct-APK signing lane:
 
