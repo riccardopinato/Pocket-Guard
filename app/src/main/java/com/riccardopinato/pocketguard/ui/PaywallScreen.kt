@@ -31,7 +31,7 @@ fun PaywallScreen(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         HeroCard(
-            title = "PockSecure Pro",
+            title = "Pockara Pro",
             subtitle = "Più controllo durante viaggi, folla e situazioni a rischio.",
             badge = if (billing.isPro) "PRO" else "Lifetime",
             accent = listOf(
