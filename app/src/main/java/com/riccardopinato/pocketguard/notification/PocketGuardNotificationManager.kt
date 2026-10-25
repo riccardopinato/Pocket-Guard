@@ -21,7 +21,7 @@ class PocketGuardNotificationManager(
         manager.createNotificationChannel(
             NotificationChannel(
                 SERVICE_CHANNEL,
-                "Protezione Pocket Guard",
+                "Protezione PockSecure",
                 NotificationManager.IMPORTANCE_LOW
             ).apply {
                 setShowBadge(false)
@@ -32,7 +32,7 @@ class PocketGuardNotificationManager(
         manager.createNotificationChannel(
             NotificationChannel(
                 ALARM_CHANNEL,
-                "Allarme Pocket Guard",
+                "Allarme PockSecure",
                 NotificationManager.IMPORTANCE_HIGH
             ).apply {
                 description =
@@ -47,7 +47,7 @@ class PocketGuardNotificationManager(
     ): Notification =
         NotificationCompat.Builder(context, SERVICE_CHANNEL)
             .setSmallIcon(R.drawable.ic_stat_shield)
-            .setContentTitle("Pocket Guard")
+            .setContentTitle("PockSecure")
             .setContentText(stateText(state, confidence))
             .setContentIntent(openApp())
             .setOngoing(true)
@@ -67,7 +67,7 @@ class PocketGuardNotificationManager(
             ALARM_NOTIFICATION_ID,
             NotificationCompat.Builder(context, ALARM_CHANNEL)
                 .setSmallIcon(R.drawable.ic_stat_shield)
-                .setContentTitle("Pocket Guard: allarme")
+                .setContentTitle("PockSecure: allarme")
                 .setContentText(
                     "Estrazione sospetta confermata. Apri l'app per autenticarti."
                 )
