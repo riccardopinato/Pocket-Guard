@@ -1,0 +1,76 @@
+POCKSECURE — PRIVACY POLICY
+Effective date: 25 October 2026
+
+Developer
+PockSecure is developed and published by Riccardo Pinato.
+Privacy contact: REPLACE_WITH_SUPPORT_EMAIL_BEFORE_PUBLICATION
+
+1. Overview
+PockSecure is an Android anti-pickpocket utility designed to detect suspicious device extraction using on-device sensors. Core protection works locally and does not require a PockSecure account.
+
+2. Data accessed and used
+Depending on the features enabled by the user, PockSecure may access:
+- proximity sensor data;
+- ambient light sensor data;
+- accelerometer and gyroscope data;
+- notification permission;
+- vibration;
+- wake lock capability;
+- biometric authentication provided by Android;
+- camera permission solely to control the device torch/flash.
+
+Sensor readings are processed locally on the device to provide anti-pickpocket protection. PockSecure does not upload sensor readings to a PockSecure server.
+
+3. Local app data
+PockSecure stores settings, calibration profiles, local event history, runtime protection state and a local PIN verifier on the device.
+The PIN is not stored in plain text.
+The app does not require a proprietary online account.
+
+4. Camera and flash
+If the user enables the optional flash alarm feature, PockSecure may request camera permission so Android can allow the app to control the device torch.
+PockSecure does not take, record, save or upload photos or videos.
+
+5. Biometric authentication
+If enabled, biometric authentication is handled by Android's biometric APIs.
+PockSecure does not receive or store fingerprint, face or other biometric templates.
+
+6. Google Play purchases
+PockSecure Pro purchases are processed by Google Play Billing.
+PockSecure receives purchase state and entitlement information required to unlock paid features.
+PockSecure does not receive full payment-card details.
+Google processes purchase information according to Google's own policies.
+
+7. Advertising and tracking
+PockSecure does not display third-party advertising.
+PockSecure does not use the Google Advertising ID for advertising or behavioural profiling.
+The current app does not include third-party analytics or advertising SDKs.
+
+8. Sharing
+PockSecure does not sell personal information.
+The developer does not intentionally share local sensor data, PIN material, calibration data or local event history with third parties.
+Google Play processes purchase and app-distribution information independently as the platform provider.
+
+9. Backup
+PockSecure allows Android backup only for ordinary app settings included by the app's backup configuration.
+Security PIN material, runtime protection state and local history are not intentionally included in the configured backup scope.
+
+10. Retention and deletion
+Local app data remains on the device until the user clears app storage, deletes the relevant data in the app where supported, or uninstalls the app.
+PockSecure does not maintain a proprietary server-side user account or server database for this data.
+Google Play purchase records are retained by Google according to Google's policies.
+
+11. Security
+PockSecure uses Android platform security features and local cryptographic protection for the PIN verifier.
+No software or device can be guaranteed completely secure.
+
+12. Children
+PockSecure is a general device-security utility and is not specifically directed to children.
+
+13. Theft-prevention limitation
+PockSecure is intended to help users notice suspicious device extraction quickly. It cannot guarantee prevention of theft, recovery of a stolen device, or personal safety.
+
+14. Changes
+This policy may be updated when PockSecure features or data practices change. The effective date at the top will be updated accordingly.
+
+15. Contact
+Before public Google Play release, replace REPLACE_WITH_SUPPORT_EMAIL_BEFORE_PUBLICATION with the public privacy/support contact used in the Play Store listing.
