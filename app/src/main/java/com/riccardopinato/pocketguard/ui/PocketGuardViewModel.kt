@@ -1,11 +1,13 @@
 package com.riccardopinato.pocketguard.ui
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.riccardopinato.pocketguard.billing.BillingRepository
 import com.riccardopinato.pocketguard.data.SettingsRepository
 import com.riccardopinato.pocketguard.history.HistoryRepository
 import com.riccardopinato.pocketguard.model.*
@@ -23,10 +25,13 @@ import kotlinx.coroutines.launch
 class PocketGuardViewModel(
     private val appContext: Context,
     private val settingsRepository: SettingsRepository,
+    private val billingRepository: BillingRepository,
     private val historyRepository: HistoryRepository,
     private val securityRepository: SecurityRepository,
     private val pinManager: PinSecurityManager
 ) : ViewModel() {
+
+    val billing = billingRepository.state
 
     val settings =
         settingsRepository.settingsFlow.stateIn(
@@ -97,6 +102,14 @@ class PocketGuardViewModel(
 
     val capabilities =
         SensorController.detectCapabilities(appContext)
+
+    fun purchasePro(activity: Activity) {
+        billingRepository.launchPurchase(activity)
+    }
+
+    fun restorePurchases() {
+        billingRepository.restorePurchases()
+    }
 
     fun startGuard() {
         val current = settings.value
@@ -181,18 +194,27 @@ class PocketGuardViewModel(
     }
 
     fun setMode(value: GuardMode) {
+        if (value == GuardMode.BAG && !billing.value.isPro) return
         viewModelScope.launch {
             settingsRepository.setMode(value)
         }
     }
 
     fun setJourney(value: JourneyDuration) {
+        if (
+            value != JourneyDuration.MINUTES_30 &&
+            !billing.value.isPro
+        ) return
         viewModelScope.launch {
             settingsRepository.setJourney(value)
         }
     }
 
     fun setSensitivity(value: PocketSensitivity) {
+        if (
+            value == PocketSensitivity.HIGH &&
+            !billing.value.isPro
+        ) return
         viewModelScope.launch {
             settingsRepository.setSensitivity(value)
         }
@@ -229,6 +251,7 @@ class PocketGuardViewModel(
     }
 
     fun setFlash(value: Boolean) {
+        if (value && !billing.value.isPro) return
         if (
             !value &&
             !settings.value.soundEnabled &&
@@ -241,12 +264,14 @@ class PocketGuardViewModel(
     }
 
     fun setBiometric(value: Boolean) {
+        if (value && !billing.value.isPro) return
         viewModelScope.launch {
             settingsRepository.setBiometric(value)
         }
     }
 
     fun setReliability(value: Boolean) {
+        if (value && !billing.value.isPro) return
         viewModelScope.launch {
             settingsRepository.setReliability(value)
         }
@@ -271,6 +296,7 @@ class PocketGuardViewModel(
     class Factory(
         private val appContext: Context,
         private val settingsRepository: SettingsRepository,
+        private val billingRepository: BillingRepository,
         private val historyRepository: HistoryRepository,
         private val securityRepository: SecurityRepository,
         private val pinManager: PinSecurityManager
@@ -288,6 +314,7 @@ class PocketGuardViewModel(
                 return PocketGuardViewModel(
                     appContext = appContext.applicationContext,
                     settingsRepository = settingsRepository,
+                    billingRepository = billingRepository,
                     historyRepository = historyRepository,
                     securityRepository = securityRepository,
                     pinManager = pinManager
