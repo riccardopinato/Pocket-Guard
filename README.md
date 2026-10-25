@@ -17,7 +17,7 @@ Current product line:
 ## Release identity
 
 - Application ID: `com.riccardopinato.pocketguard`
-- Current version: `0.5.0` (`versionCode 6`)
+- Current version: `0.5.1` (`versionCode 7`)
 - Permanent signing identity is managed only through GitHub Actions secrets.
 - The private keystore is intentionally not stored in this repository.
 
