@@ -25,13 +25,13 @@ fun PrivacyScreen(
     ) {
         HeroCard(
             title = "Privacy",
-            subtitle = "PockSecure è progettata per funzionare principalmente sul dispositivo.",
+            subtitle = "Pockara è progettata per funzionare principalmente sul dispositivo.",
             badge = "Local"
         ) {}
 
         PrivacySection(
             "Dati e sensori",
-            "La protezione usa sensori di prossimità, luce e movimento. I valori vengono elaborati sul dispositivo e non vengono caricati su server PockSecure."
+            "La protezione usa sensori di prossimità, luce e movimento. I valori vengono elaborati sul dispositivo e non vengono caricati su server Pockara."
         )
         PrivacySection(
             "PIN e cronologia",
@@ -39,15 +39,15 @@ fun PrivacyScreen(
         )
         PrivacySection(
             "Fotocamera",
-            "Il permesso fotocamera viene usato solo per controllare il flash se abiliti questa funzione. PockSecure non scatta né salva foto o video."
+            "Il permesso fotocamera viene usato solo per controllare il flash se abiliti questa funzione. Pockara non scatta né salva foto o video."
         )
         PrivacySection(
             "Acquisti",
-            "Gli acquisti Pro sono gestiti da Google Play. PockSecure riceve solo lo stato necessario a sbloccare le funzioni acquistate e non riceve i dati completi della carta."
+            "Gli acquisti Pro sono gestiti da Google Play. Pockara riceve solo lo stato necessario a sbloccare le funzioni acquistate e non riceve i dati completi della carta."
         )
         PrivacySection(
             "Pubblicità e tracking",
-            "PockSecure non include pubblicità di terze parti e non usa un advertising ID per profilazione pubblicitaria."
+            "Pockara non include pubblicità di terze parti e non usa un advertising ID per profilazione pubblicitaria."
         )
         PrivacySection(
             "Backup",
@@ -55,7 +55,7 @@ fun PrivacyScreen(
         )
         PrivacySection(
             "Limiti del servizio",
-            "PockSecure aiuta a rilevare estrazioni sospette, ma nessuna app può garantire la prevenzione di un furto o il recupero del dispositivo."
+            "Pockara aiuta a rilevare estrazioni sospette, ma nessuna app può garantire la prevenzione di un furto o il recupero del dispositivo."
         )
     }
 }
