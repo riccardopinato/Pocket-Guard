@@ -133,7 +133,7 @@ private fun eventDetail(event: GuardHistoryEvent): String =
         "CALIBRATION_OK" -> "Profilo sensori aggiornato correttamente."
         "CALIBRATION_ERROR" -> "La calibrazione non è stata completata."
         "TEST_ALARM" -> "Test sirena completato."
-        "ERROR" -> "PockSecure ha rilevato una condizione non valida."
+        "ERROR" -> "Pockara ha rilevato una condizione non valida."
         else -> "Evento registrato localmente."
     }
 

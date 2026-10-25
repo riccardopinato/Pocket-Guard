@@ -1,8 +1,8 @@
-# PockSecure
+# Pockara
 
 Android anti-pickpocket utility built with Kotlin and Jetpack Compose.
 
-PockSecure is the visible commercial brand. The Android application ID remains
+Pockara is the visible commercial brand. The Android application ID remains
 `com.riccardopinato.pocketguard` so signed upgrades remain compatible with previous test releases.
 
 Current product line:

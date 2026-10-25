@@ -1,4 +1,4 @@
-# PockSecure signing identity
+# Pockara signing identity
 
 Public certificate fingerprint used by the production/direct-APK signing lane:
 

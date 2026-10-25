@@ -306,7 +306,7 @@ class BillingRepository(
                     isPro = true,
                     ownedByPlay = true,
                     isPending = false,
-                    message = "PockSecure Pro è attivo."
+                    message = "Pockara Pro è attivo."
                 )
             return
         }
@@ -342,7 +342,7 @@ class BillingRepository(
             BillingClient.BillingResponseCode.BILLING_UNAVAILABLE ->
                 "Google Play Billing non è disponibile su questo dispositivo."
             BillingClient.BillingResponseCode.ITEM_UNAVAILABLE ->
-                "PockSecure Pro non è ancora disponibile sul tuo account."
+                "Pockara Pro non è ancora disponibile sul tuo account."
             BillingClient.BillingResponseCode.NETWORK_ERROR ->
                 "Connessione non disponibile. Riprova."
             BillingClient.BillingResponseCode.SERVICE_UNAVAILABLE ->

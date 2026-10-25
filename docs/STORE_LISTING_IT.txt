@@ -1,16 +1,16 @@
-POCKSECURE — GOOGLE PLAY LISTING (IT)
+POCKARA — GOOGLE PLAY LISTING (IT)
 
 Nome:
-PockSecure: Allarme Antifurto
+Pockara: Allarme Antifurto
 
 Descrizione breve:
 Proteggi tasca e borsa con rilevamento smart, sirena e Journey Guard.
 
 Descrizione completa:
-PockSecure trasforma i sensori del tuo telefono in una protezione anti-pickpocket semplice da attivare prima di viaggi, mezzi pubblici, eventi e luoghi affollati.
+Pockara trasforma i sensori del tuo telefono in una protezione anti-pickpocket semplice da attivare prima di viaggi, mezzi pubblici, eventi e luoghi affollati.
 
 COME FUNZIONA
-Attiva la protezione, riponi il telefono in tasca o nella borsa e lascia che PockSecure controlli i segnali dei sensori. Se rileva una possibile estrazione, verifica rapidamente se sei tu e può attivare sirena, vibrazione e altre azioni configurate.
+Attiva la protezione, riponi il telefono in tasca o nella borsa e lascia che Pockara controlli i segnali dei sensori. Se rileva una possibile estrazione, verifica rapidamente se sei tu e può attivare sirena, vibrazione e altre azioni configurate.
 
 FUNZIONI PRINCIPALI
 • Modalità Tasca con calibrazione
@@ -23,14 +23,14 @@ FUNZIONI PRINCIPALI
 • Modalità Borsa e controlli avanzati con Pro
 
 PRIVACY-FIRST
-• Nessun account PockSecure obbligatorio
+• Nessun account Pockara obbligatorio
 • Elaborazione dei sensori sul dispositivo
 • Nessuna pubblicità di terze parti
 • Nessun GPS necessario
 • Nessuna foto o video acquisiti dalla funzione flash
 
-POCKSECURE PRO
+POCKARA PRO
 Un unico acquisto Lifetime sblocca modalità e controlli avanzati. Nessun abbonamento richiesto al lancio.
 
 IMPORTANTE
-PockSecure è uno strumento di allerta e deterrenza. Nessuna app può garantire la prevenzione di un furto o il recupero del dispositivo.
+Pockara è uno strumento di allerta e deterrenza. Nessuna app può garantire la prevenzione di un furto o il recupero del dispositivo.
