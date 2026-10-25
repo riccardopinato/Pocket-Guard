@@ -113,10 +113,10 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p release
-          cp "$APK" release/Pocket-Guard-v0.4.1.apk
-          cp "$AAB" release/Pocket-Guard-v0.4.1.aab
+          cp "$APK" release/PockSecure-v0.5.0.apk
+          cp "$AAB" release/PockSecure-v0.5.0.aab
           sha256sum release/* > release/SHA256SUMS.txt
-          wc -c release/Pocket-Guard-v0.4.1.apk release/Pocket-Guard-v0.4.1.aab > release/SIZES.txt
+          wc -c release/PockSecure-v0.5.0.apk release/PockSecure-v0.5.0.aab > release/SIZES.txt
           echo "${GITHUB_SHA}" > release/SOURCE_SHA.txt
           cp signer-report.txt release/SIGNER_REPORT.txt
 
@@ -124,7 +124,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          BYTES=$(stat -c%s release/Pocket-Guard-v0.4.1.apk)
+          BYTES=$(stat -c%s release/PockSecure-v0.5.0.apk)
           LIMIT=$((20 * 1024 * 1024))
           if [ "$BYTES" -gt "$LIMIT" ]; then
             echo "::error::Release APK exceeds 20 MiB size gate: $BYTES bytes"
@@ -134,17 +134,17 @@ jobs:
       - name: Upload signed APK
         uses: actions/upload-artifact@v7
         with:
-          name: pocket-guard-v0.4.1-apk
-          path: release/Pocket-Guard-v0.4.1.apk
+          name: pocksecure-v0.5.0-apk
+          path: release/PockSecure-v0.5.0.apk
           if-no-files-found: error
           retention-days: 30
 
       - name: Upload signed AAB and evidence
         uses: actions/upload-artifact@v7
         with:
-          name: pocket-guard-v0.4.1-release-evidence
+          name: pocksecure-v0.5.0-release-evidence
           path: |
-            release/Pocket-Guard-v0.4.1.aab
+            release/PockSecure-v0.5.0.aab
             release/SHA256SUMS.txt
             release/SIZES.txt
             release/SOURCE_SHA.txt
