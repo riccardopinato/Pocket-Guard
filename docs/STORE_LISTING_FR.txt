@@ -1,0 +1,36 @@
+POCKSECURE — GOOGLE PLAY LISTING (FR)
+
+Nom:
+PockSecure : Alarme Antivol
+
+Description courte:
+Protégez poche et sac avec détection intelligente, sirène et Journey Guard.
+
+Description complète:
+PockSecure transforme les capteurs de votre téléphone en une protection anti-pickpocket simple à activer dans les transports, en voyage, lors d’événements et dans les lieux fréquentés.
+
+COMMENT ÇA MARCHE
+Activez la protection, rangez le téléphone dans votre poche ou votre sac et laissez PockSecure surveiller les signaux des capteurs du téléphone. En cas d’extraction suspecte, l’app vérifie rapidement s’il s’agit de vous et peut déclencher sirène, vibration et autres réactions configurées.
+
+FONCTIONS PRINCIPALES
+• Mode Poche avec calibration
+• Journey Guard
+• PIN local
+• Sirène et vibration
+• Vérification du propriétaire
+• Diagnostic des capteurs
+• Historique local
+• Mode Sac et réglages avancés avec Pro
+
+CONFIDENTIALITÉ
+• Aucun compte PockSecure obligatoire
+• Traitement des capteurs sur l’appareil
+• Aucune publicité tierce
+• Aucun GPS nécessaire
+• La fonction flash ne prend aucune photo ou vidéo
+
+POCKSECURE PRO
+Un achat Lifetime unique débloque les modes et contrôles avancés. Aucun abonnement au lancement.
+
+IMPORTANT
+PockSecure est un outil d’alerte et de dissuasion. Aucune application ne peut garantir la prévention d’un vol ou la récupération de l’appareil.
