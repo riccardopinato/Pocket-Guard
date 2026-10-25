@@ -30,6 +30,7 @@ class SettingsRepository(
         val FLASH = booleanPreferencesKey("flash")
         val BIOMETRIC = booleanPreferencesKey("biometric")
         val RELIABILITY = booleanPreferencesKey("reliability")
+        val ONBOARDING_DONE = booleanPreferencesKey("onboarding_done")
     }
 
     private object R {
@@ -63,6 +64,9 @@ class SettingsRepository(
                 enhancedReliability = p[K.RELIABILITY] ?: false
             )
         }
+
+    val onboardingCompletedFlow: Flow<Boolean> =
+        context.settingsDataStore.data.map { it[K.ONBOARDING_DONE] ?: false }
 
     val isArmedFlow: Flow<Boolean> =
         context.runtimeDataStore.data.map { it[R.ARMED] ?: false }
@@ -110,6 +114,9 @@ class SettingsRepository(
 
     suspend fun setReliability(value: Boolean) =
         context.settingsDataStore.edit { it[K.RELIABILITY] = value }
+
+    suspend fun setOnboardingCompleted(value: Boolean) =
+        context.settingsDataStore.edit { it[K.ONBOARDING_DONE] = value }
 
     suspend fun saveCalibration(profile: CalibrationProfile) {
         context.settingsDataStore.edit {
