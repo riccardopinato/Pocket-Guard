@@ -58,7 +58,7 @@ fun SettingsScreen(
             title = { Text("Uso del flash") },
             text = {
                 Text(
-                    "PockSecure richiede il permesso Fotocamera esclusivamente per accendere e spegnere il flash durante l'allarme. Non scatta, registra o salva foto o video e non invia dati a server PockSecure."
+                    "Pockara richiede il permesso Fotocamera esclusivamente per accendere e spegnere il flash durante l'allarme. Non scatta, registra o salva foto o video e non invia dati a server Pockara."
                 )
             },
             confirmButton = {
@@ -89,7 +89,7 @@ fun SettingsScreen(
     ) {
         HeroCard(
             title = "Controlli rapidi",
-            subtitle = "Configura PockSecure in base a come usi davvero il telefono.",
+            subtitle = "Configura Pockara in base a come usi davvero il telefono.",
             badge = if (isPro) "PRO" else "Free",
             accent = listOf(
                 MaterialTheme.colorScheme.secondary,
@@ -246,7 +246,7 @@ fun SettingsScreen(
                     modifier = Modifier.fillMaxWidth(),
                     onClick = onPro
                 ) {
-                    Text("Scopri PockSecure Pro")
+                    Text("Scopri Pockara Pro")
                 }
             }
         }
