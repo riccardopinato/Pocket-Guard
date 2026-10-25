@@ -74,7 +74,7 @@ fun PocketGuardApp(
                 modifier = Modifier.padding(horizontal = 18.dp, vertical = 16.dp),
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
-                PockSecureHeader(
+                PockaraHeader(
                     currentPage = page,
                     isPro = billing.isPro,
                     onPageSelected = { page = it }
@@ -168,7 +168,7 @@ fun PocketGuardApp(
 }
 
 @Composable
-private fun PockSecureHeader(
+private fun PockaraHeader(
     currentPage: Page,
     isPro: Boolean,
     onPageSelected: (Page) -> Unit
@@ -180,7 +180,7 @@ private fun PockSecureHeader(
         ) {
             Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                 Text(
-                    "PockSecure",
+                    "Pockara",
                     style = MaterialTheme.typography.headlineMedium,
                     fontWeight = FontWeight.Bold
                 )
