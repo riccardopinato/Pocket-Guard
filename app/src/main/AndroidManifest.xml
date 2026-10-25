@@ -21,7 +21,7 @@
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@drawable/ic_stat_shield"
-        android:label="Pocket Guard"
+        android:label="PockSecure"
         android:roundIcon="@drawable/ic_stat_shield"
         android:supportsRtl="true"
         android:theme="@style/Theme.PocketGuard">

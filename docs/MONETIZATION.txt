@@ -1,0 +1,59 @@
+POCKSECURE — MONETIZATION PLAN
+Version: v0.5.0
+
+MODEL
+Free + Pro Lifetime.
+No subscription at launch.
+No third-party ads at launch.
+
+GOOGLE PLAY PRODUCT
+Product ID: pro_lifetime
+Type: one-time product / non-consumable
+
+TARGET PRICING
+Normal reference price: EUR 6.99
+Launch offer target: EUR 4.99
+
+The app always displays the localized Google Play price returned by BillingClient.
+Do not hard-code the public price into the UI.
+
+FREE PLAN
+- Pocket mode
+- 30-minute Journey Guard
+- Low / Normal sensitivity
+- calibration
+- local PIN
+- siren
+- vibration
+- basic diagnostics
+- last 5 history events
+- core anti-pickpocket detection
+
+PRO LIFETIME
+- Bag mode
+- 1-hour Journey Guard
+- 2-hour Journey Guard
+- until-stopped Journey Guard
+- High sensitivity
+- biometric disarm
+- flash alarm
+- enhanced reliability
+- full local event history
+- future premium protection modes when appropriate
+
+RULE
+Detection quality is never intentionally degraded for Free users.
+Pro sells flexibility, convenience and advanced controls, not a deliberately worse theft detector.
+
+PRE-LAUNCH TEST MODE
+BuildConfig.PRELAUNCH_PRO_PREVIEW = true
+This unlocks Pro in the current sideload/test APKs so physical testing is not blocked before the Play product exists.
+
+PUBLIC LAUNCH
+Before production release:
+1. Create one-time product pro_lifetime in Play Console.
+2. Configure normal EUR 6.99-equivalent regional pricing.
+3. Optionally configure an eligible launch discount around EUR 4.99.
+4. Test with Play license testers, including pending-payment scenarios.
+5. Set PRELAUNCH_PRO_PREVIEW = false.
+6. Build and verify the signed production AAB.

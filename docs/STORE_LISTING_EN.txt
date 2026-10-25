@@ -1,0 +1,36 @@
+POCKSECURE — GOOGLE PLAY LISTING (EN)
+
+Name:
+PockSecure: Anti-Theft Alarm
+
+Short description:
+Protect your pocket or bag with smart detection, siren and Journey Guard.
+
+Full description:
+PockSecure turns your phone sensors into a simple anti-pickpocket protection layer for travel, public transport, events and crowded places.
+
+HOW IT WORKS
+Arm protection, put your phone in your pocket or bag, and let PockSecure monitor on-device sensor signals. If a possible extraction is detected, PockSecure quickly checks whether it is you and can trigger a siren, vibration and other configured responses.
+
+MAIN FEATURES
+• Calibrated Pocket mode
+• Journey Guard
+• Local PIN
+• Siren and vibration
+• Owner verification
+• Sensor diagnostics
+• Local event history
+• Bag mode and advanced controls with Pro
+
+PRIVACY-FIRST
+• No mandatory PockSecure account
+• Sensor processing stays on device
+• No third-party ads
+• No GPS required
+• Flash feature does not take photos or videos
+
+POCKSECURE PRO
+A single Lifetime purchase unlocks advanced modes and controls. No subscription required at launch.
+
+IMPORTANT
+PockSecure is an alert and deterrence tool. No app can guarantee theft prevention or device recovery.

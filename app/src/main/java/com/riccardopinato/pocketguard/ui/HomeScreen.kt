@@ -275,7 +275,7 @@ private fun titleFor(state: GuardState): String =
 
 private fun subtitleFor(state: GuardState): String =
     when (state) {
-        GuardState.DISARMED -> "Pocket Guard è pronto, ma non sta monitorando il telefono."
+        GuardState.DISARMED -> "PockSecure è pronto, ma non sta monitorando il telefono."
         GuardState.ARMING -> "Hai ancora qualche secondo per riporre il telefono."
         GuardState.CALIBRATING -> "Mantieni il telefono nella posizione reale di utilizzo."
         GuardState.WAITING_FOR_POCKET -> "Sto aspettando una condizione stabile di tasca o borsa."

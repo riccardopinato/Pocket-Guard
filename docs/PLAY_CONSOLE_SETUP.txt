@@ -1,0 +1,61 @@
+POCKSECURE — PLAY CONSOLE RELEASE CHECKLIST
+Version: v0.5.0 pre-launch
+
+BLOCKERS THAT REQUIRE PLAY CONSOLE / OWNER INPUT
+
+A. PRODUCT
+Create one-time product:
+- Product ID: pro_lifetime
+- Type: one-time / non-consumable
+- Normal target price: EUR 6.99
+- Optional launch offer target: EUR 4.99
+
+B. PRIVACY
+- Replace REPLACE_WITH_SUPPORT_EMAIL_BEFORE_PUBLICATION in docs/PRIVACY_POLICY.txt.
+- Publish the policy on a public non-PDF URL.
+- Put the same URL in Play Console.
+- Keep the in-app Privacy page consistent with it.
+
+C. APP CONTENT
+- Ads declaration: No ads.
+- Data Safety: complete using docs/PLAY_DATA_SAFETY.txt and re-check final AAB.
+- Target audience: general audience; not specifically directed to children.
+- Content rating: complete questionnaire.
+- App access: no account required.
+
+D. FOREGROUND SERVICE
+Declare the specialUse foreground-service purpose accurately:
+User-armed anti-pickpocket protection continuously monitors device sensors only during an active protection session and requires an ongoing notification so the user knows protection is running.
+
+E. BILLING TEST
+Use Play license testers and verify:
+- successful purchase;
+- cancel;
+- pending purchase;
+- pending -> purchased;
+- restore purchase;
+- already owned;
+- offline / Play unavailable;
+- uninstall + reinstall with same Google account.
+
+F. PRODUCTION SWITCH
+Change:
+PRELAUNCH_PRO_PREVIEW = false
+
+Do this only after pro_lifetime exists and billing tests pass.
+
+G. STORE ASSETS
+Still required before public launch:
+- final adaptive launcher icon;
+- feature graphic;
+- phone screenshots;
+- localized store listing;
+- support email;
+- privacy URL.
+
+DO NOT SHIP PUBLICLY UNTIL
+- physical anti-pickpocket test matrix is green;
+- Pro purchase/restore is green;
+- privacy/contact placeholders are removed;
+- FGS declaration is accepted;
+- final signed AAB passes release CI.

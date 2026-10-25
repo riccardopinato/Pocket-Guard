@@ -1,0 +1,32 @@
+POCKSECURE — FOREGROUND SERVICE DECLARATION
+
+Foreground service type:
+specialUse
+
+Manifest permission:
+android.permission.FOREGROUND_SERVICE_SPECIAL_USE
+
+Manifest subtype explanation:
+User-armed anti-pickpocket protection that continuously monitors proximity, ambient light and device motion sensors during an active protection session.
+
+PLAY CONSOLE EXPLANATION
+
+PockSecure is an anti-pickpocket utility. The user explicitly starts a protection session. During that session the app must continue monitoring on-device proximity, ambient-light and motion sensors while the phone is in a pocket or bag and the app is not visible. Interrupting or deferring the task would prevent the user-requested anti-pickpocket function from detecting a suspicious extraction.
+
+The service is user-perceptible through a persistent notification that clearly states the protection state. The user can stop protection from the app. Timed Journey Guard sessions stop automatically when their selected duration ends.
+
+PockSecure does not use this foreground service for advertising, analytics, location tracking, data synchronization or hidden background activity.
+
+REVIEW VIDEO SUGGESTION
+
+Record one short video showing:
+1. User opens PockSecure.
+2. User taps Activate Journey Guard.
+3. Persistent protection notification appears.
+4. Phone is put in a pocket until protected.
+5. Phone is extracted.
+6. PockSecure transitions to owner verification / alarm.
+7. User opens app and authenticates to disarm.
+8. Protection is stopped and notification disappears.
+
+Keep the video focused on why continuous foreground execution is essential to the user-visible core feature.

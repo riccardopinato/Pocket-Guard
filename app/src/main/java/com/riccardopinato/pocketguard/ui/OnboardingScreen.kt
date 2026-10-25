@@ -55,7 +55,7 @@ fun OnboardingScreen(
             verticalArrangement = Arrangement.spacedBy(18.dp)
         ) {
             Text(
-                "Pocket Guard",
+                "PockSecure",
                 style = MaterialTheme.typography.headlineMedium,
                 fontWeight = FontWeight.Bold
             )
@@ -192,7 +192,7 @@ fun OnboardingScreen(
                 else -> {
                     HeroCard(
                         title = "Quasi pronto",
-                        subtitle = "La calibrazione rende Pocket Guard più adatto alla tua tasca o borsa reale.",
+                        subtitle = "La calibrazione rende PockSecure più adatto alla tua tasca o borsa reale.",
                         badge = "4/4",
                         accent = listOf(
                             MaterialTheme.colorScheme.primary,
@@ -220,7 +220,7 @@ fun OnboardingScreen(
                         modifier = Modifier.fillMaxWidth(),
                         enabled = hasPin,
                         onClick = onComplete
-                    ) { Text("Apri Pocket Guard") }
+                    ) { Text("Apri PockSecure") }
                     OutlinedButton(
                         modifier = Modifier.fillMaxWidth(),
                         onClick = { step = 2 }

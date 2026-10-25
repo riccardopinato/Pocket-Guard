@@ -46,7 +46,7 @@ fun SecurityScreen(
                     }
                 }) { Text("Salva PIN") }
             } else {
-                Text("Il PIN è pronto per proteggere il disarmo di Pocket Guard.")
+                Text("Il PIN è pronto per proteggere il disarmo di PockSecure.")
             }
         }
 

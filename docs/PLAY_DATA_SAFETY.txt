@@ -1,0 +1,59 @@
+POCKSECURE — GOOGLE PLAY DATA SAFETY DRAFT
+Version: v0.5.0 pre-launch
+Date: 25 October 2026
+
+Use this document as the source checklist when completing Play Console.
+Re-check the final APK and every SDK before submission.
+
+CURRENT APP DATA MODEL
+
+Developer-collected data:
+- No proprietary account.
+- No developer backend.
+- No third-party advertising SDK.
+- No third-party analytics SDK.
+- Sensor readings are processed locally.
+- Local PIN material remains on device.
+- Local event history remains on device.
+- Calibration remains on device.
+
+Third-party platform processing:
+- Google Play Billing processes purchase transactions and returns purchase/entitlement state to the app.
+- Google Play and Android may independently process distribution, licensing, diagnostics or platform data under Google's policies.
+
+DATA SAFETY WORKING ANSWERS
+
+Does the app collect or share user data with the developer or third-party SDKs?
+- Based on the current source: no app-defined collection or sharing of sensor, PIN, history or calibration data off-device.
+- Billing is handled by Google Play. Verify Play Console guidance for whether any billing-related fields must be declared for the final SDK/version.
+
+Is data encrypted in transit?
+- The app does not transmit its local protection data to a PockSecure server.
+- Google Play Billing communication is handled by Google's SDK/services.
+
+Can users request deletion?
+- There is no PockSecure online account.
+- Local data can be deleted by clearing app storage or uninstalling.
+- Local history can be cleared inside the app.
+- Google Play purchase records are controlled by Google.
+
+Advertising:
+- Declare NO ADS for the current version.
+
+Account creation:
+- No PockSecure account creation.
+
+Sensitive permissions / access:
+- CAMERA: only for optional torch/flash control; no photos/video.
+- POST_NOTIFICATIONS: protection status and alarm notification.
+- USE_BIOMETRIC: optional local owner authentication.
+- FOREGROUND_SERVICE / SPECIAL_USE: active anti-pickpocket monitoring session.
+- WAKE_LOCK: optional enhanced reliability.
+- Sensors: proximity, light, accelerometer, gyroscope.
+
+FINAL PRE-PUBLISH CHECK
+1. Verify privacy-policy URL is public, globally accessible and matches the final app.
+2. Replace support/privacy email placeholder.
+3. Verify no analytics/ads SDK was added after this document.
+4. Complete Foreground Service declaration in Play Console.
+5. Complete Data Safety against the final signed AAB, not an older build.
