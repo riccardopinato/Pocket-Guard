@@ -118,7 +118,10 @@ class SmartProtectionEngine(
         val elapsed = snapshot.timestampMs - startedAt
 
         if (
-            score >= settings.sensitivity.ownerCheckScore &&
+            (
+                score >= settings.sensitivity.ownerCheckScore ||
+                    isDecisivePocketExtraction(snapshot)
+            ) &&
             elapsed <= settings.removalWindowMs
         ) {
             removalCandidateSince = null
@@ -141,6 +144,13 @@ class SmartProtectionEngine(
 
         return unchanged(score, "Accumulating extraction evidence")
     }
+
+    private fun isDecisivePocketExtraction(
+        snapshot: SensorSnapshot
+    ): Boolean =
+        settings.mode == GuardMode.POCKET &&
+            snapshot.proximityNear == false &&
+            snapshot.lux?.let { it >= profile.exitLux } == true
 
     private fun isStored(snapshot: SensorSnapshot): Boolean {
         val darkEnough = snapshot.lux?.let { it <= profile.enterLux } ?: true

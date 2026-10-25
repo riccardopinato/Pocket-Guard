@@ -59,6 +59,38 @@ class SmartProtectionEngineTest {
         )
     }
 
+
+    @Test
+    fun pocketExtractionWithProximityAndLightStartsOwnerCheckWithoutMotion() {
+        val engine = SmartProtectionEngine(settings, profile)
+        protect(engine)
+
+        val suspect =
+            engine.process(s(1_500L, 30f, false, 0.01f, 0.01f))
+
+        assertEquals(GuardState.REMOVAL_SUSPECTED, suspect.state)
+        assertTrue(
+            suspect.confidenceScore <
+                PocketSensitivity.NORMAL.ownerCheckScore
+        )
+
+        val confirm =
+            engine.process(s(1_560L, 30f, false, 0.01f, 0.01f))
+
+        assertEquals(GuardState.OWNER_CHECK, confirm.state)
+    }
+
+    @Test
+    fun proximityOnlyDoesNotConfirmExtractionWithoutOtherEvidence() {
+        val engine = SmartProtectionEngine(settings, profile)
+        protect(engine)
+
+        val suspect =
+            engine.process(s(1_500L, 2f, false, 0.01f, 0.01f))
+
+        assertEquals(GuardState.POCKET_CONFIRMED, suspect.state)
+    }
+
     @Test
     fun ownerVerificationReturnsToAutoRearm() {
         val engine = SmartProtectionEngine(settings, profile)
