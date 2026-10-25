@@ -29,16 +29,16 @@ jobs:
           distribution: temurin
           java-version: '17'
 
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@be39fa834029ff78f1a44aa3bb0819b8fc2bd8fd
+
+      - name: Install Android API 37
+        run: sdkmanager "platforms;android-37"
+
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v6
         with:
           gradle-version: '9.3.1'
-
-      - name: Install Android API 37
-        shell: bash
-        run: |
-          yes | sdkmanager --licenses >/dev/null || true
-          sdkmanager "platforms;android-37"
 
       - name: Require signing secrets
         shell: bash
@@ -92,7 +92,7 @@ jobs:
         shell: bash
         env:
           APK: ${{ steps.artifacts.outputs.apk }}
-          EXPECTED_CERT_SHA256: E2:DD:50:69:60:A0:11:5E:B1:CE:56:C6:2D:2D:97:77:50:10:FE:6E:A2:CA:6E:8E:EB:9F:E6:52:B3:9F:F3:CD
+          EXPECTED_CERT_SHA256: "E2:DD:50:69:60:A0:11:5E:B1:CE:56:C6:2D:2D:97:77:50:10:FE:6E:A2:CA:6E:8E:EB:9F:E6:52:B3:9F:F3:CD"
         run: |
           set -euo pipefail
           APKSIGNER="$(find "$ANDROID_HOME/build-tools" -type f -name apksigner | sort -V | tail -n 1)"
@@ -117,8 +117,7 @@ jobs:
           cp "$AAB" release/Pocket-Guard-v0.3.0.aab
           sha256sum release/* > release/SHA256SUMS.txt
           wc -c release/Pocket-Guard-v0.3.0.apk release/Pocket-Guard-v0.3.0.aab > release/SIZES.txt
-          printf '%s
-' "${GITHUB_SHA}" > release/SOURCE_SHA.txt
+          echo "${GITHUB_SHA}" > release/SOURCE_SHA.txt
           cp signer-report.txt release/SIGNER_REPORT.txt
 
       - name: Enforce APK size budget
