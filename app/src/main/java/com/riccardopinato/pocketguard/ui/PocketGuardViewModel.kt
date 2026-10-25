@@ -35,6 +35,13 @@ class PocketGuardViewModel(
             GuardSettings()
         )
 
+    val onboardingCompleted =
+        settingsRepository.onboardingCompletedFlow.stateIn(
+            viewModelScope,
+            SharingStarted.WhileSubscribed(5_000),
+            false
+        )
+
     val guardState =
         settingsRepository.guardStateFlow.stateIn(
             viewModelScope,
@@ -158,6 +165,12 @@ class PocketGuardViewModel(
                 pin == confirmation &&
                     pinManager.setPin(pin)
             onResult(ok)
+        }
+    }
+
+    fun completeOnboarding() {
+        viewModelScope.launch {
+            settingsRepository.setOnboardingCompleted(true)
         }
     }
 
