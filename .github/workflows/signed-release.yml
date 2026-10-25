@@ -1,0 +1,159 @@
+name: Signed Android release
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".release-trigger"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pocket-guard-signed-release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Java
+        uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v6
+        with:
+          gradle-version: '9.3.1'
+
+      - name: Install Android API 37
+        shell: bash
+        run: |
+          yes | sdkmanager --licenses >/dev/null || true
+          sdkmanager "platforms;android-37"
+
+      - name: Require signing secrets
+        shell: bash
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          set -euo pipefail
+          for name in ANDROID_KEYSTORE_BASE64 ANDROID_KEYSTORE_PASSWORD ANDROID_KEY_ALIAS ANDROID_KEY_PASSWORD; do
+            if [ -z "${!name:-}" ]; then
+              echo "::error::Missing signing secret: $name"
+              exit 1
+            fi
+          done
+
+      - name: Restore permanent keystore
+        shell: bash
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+        run: |
+          set -euo pipefail
+          mkdir -p .signing
+          printf '%s' "$ANDROID_KEYSTORE_BASE64" | base64 -d > .signing/Pocket-Guard-release.jks
+          chmod 600 .signing/Pocket-Guard-release.jks
+
+      - name: Test and build signed release
+        env:
+          ANDROID_KEYSTORE_PATH: ${{ github.workspace }}/.signing/Pocket-Guard-release.jks
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          set -euo pipefail
+          gradle :app:testDebugUnitTest :app:assembleRelease :app:bundleRelease --stacktrace
+
+      - name: Locate release artifacts
+        id: artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+          APK="$(find app/build/outputs/apk/release -type f -name '*release.apk' | head -n 1)"
+          AAB="$(find app/build/outputs/bundle/release -type f -name '*.aab' | head -n 1)"
+          test -n "$APK" && test -s "$APK"
+          test -n "$AAB" && test -s "$AAB"
+          echo "apk=$APK" >> "$GITHUB_OUTPUT"
+          echo "aab=$AAB" >> "$GITHUB_OUTPUT"
+
+      - name: Verify permanent signer
+        shell: bash
+        env:
+          APK: ${{ steps.artifacts.outputs.apk }}
+          EXPECTED_CERT_SHA256: E2:DD:50:69:60:A0:11:5E:B1:CE:56:C6:2D:2D:97:77:50:10:FE:6E:A2:CA:6E:8E:EB:9F:E6:52:B3:9F:F3:CD
+        run: |
+          set -euo pipefail
+          APKSIGNER="$(find "$ANDROID_HOME/build-tools" -type f -name apksigner | sort -V | tail -n 1)"
+          test -x "$APKSIGNER"
+          "$APKSIGNER" verify --verbose --print-certs "$APK" | tee signer-report.txt
+          ACTUAL="$(grep -m1 'Signer #1 certificate SHA-256 digest:' signer-report.txt | sed 's/.*: //' | tr '[:lower:]' '[:upper:]')"
+          EXPECTED="$(printf '%s' "$EXPECTED_CERT_SHA256" | tr -d ':' | tr '[:lower:]' '[:upper:]')"
+          if [ "$ACTUAL" != "$EXPECTED" ]; then
+            echo "::error::Signing certificate mismatch"
+            exit 1
+          fi
+
+      - name: Prepare release package
+        shell: bash
+        env:
+          APK: ${{ steps.artifacts.outputs.apk }}
+          AAB: ${{ steps.artifacts.outputs.aab }}
+        run: |
+          set -euo pipefail
+          mkdir -p release
+          cp "$APK" release/Pocket-Guard-v0.3.0.apk
+          cp "$AAB" release/Pocket-Guard-v0.3.0.aab
+          sha256sum release/* > release/SHA256SUMS.txt
+          wc -c release/Pocket-Guard-v0.3.0.apk release/Pocket-Guard-v0.3.0.aab > release/SIZES.txt
+          printf '%s
+' "${GITHUB_SHA}" > release/SOURCE_SHA.txt
+          cp signer-report.txt release/SIGNER_REPORT.txt
+
+      - name: Enforce APK size budget
+        shell: bash
+        run: |
+          set -euo pipefail
+          BYTES=$(stat -c%s release/Pocket-Guard-v0.3.0.apk)
+          LIMIT=$((20 * 1024 * 1024))
+          if [ "$BYTES" -gt "$LIMIT" ]; then
+            echo "::error::Release APK exceeds 20 MiB size gate: $BYTES bytes"
+            exit 1
+          fi
+
+      - name: Upload signed APK
+        uses: actions/upload-artifact@v7
+        with:
+          name: pocket-guard-v0.3.0-apk
+          path: release/Pocket-Guard-v0.3.0.apk
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Upload signed AAB and evidence
+        uses: actions/upload-artifact@v7
+        with:
+          name: pocket-guard-v0.3.0-release-evidence
+          path: |
+            release/Pocket-Guard-v0.3.0.aab
+            release/SHA256SUMS.txt
+            release/SIZES.txt
+            release/SOURCE_SHA.txt
+            release/SIGNER_REPORT.txt
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Remove temporary keystore
+        if: always()
+        shell: bash
+        run: rm -rf .signing
