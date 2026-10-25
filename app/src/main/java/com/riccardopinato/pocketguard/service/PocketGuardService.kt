@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat
 import com.riccardopinato.pocketguard.PocketGuardApplication
 import com.riccardopinato.pocketguard.alarm.AlarmController
 import com.riccardopinato.pocketguard.billing.CommercialAccess
+import com.riccardopinato.pocketguard.billing.PlanPolicy
 import com.riccardopinato.pocketguard.calibration.CalibrationCollector
 import com.riccardopinato.pocketguard.data.SettingsRepository
 import com.riccardopinato.pocketguard.detection.SmartProtectionEngine
@@ -97,8 +98,9 @@ class PocketGuardService : Service() {
 
         scope.launch {
             settings =
-                applyCommercialPolicy(
-                    settingsRepository.settingsFlow.first()
+                PlanPolicy.effectiveSettings(
+                    source = settingsRepository.settingsFlow.first(),
+                    isPro = CommercialAccess.hasPro(this@PocketGuardService)
                 )
 
             if (!sensors.capabilities.canRun(settings.mode)) {
@@ -326,8 +328,9 @@ class PocketGuardService : Service() {
     private fun testAlarm() {
         scope.launch {
             val currentSettings =
-                applyCommercialPolicy(
-                    settingsRepository.settingsFlow.first()
+                PlanPolicy.effectiveSettings(
+                    source = settingsRepository.settingsFlow.first(),
+                    isPro = CommercialAccess.hasPro(this@PocketGuardService)
                 )
             val armed = settingsRepository.isArmedFlow.first()
 
