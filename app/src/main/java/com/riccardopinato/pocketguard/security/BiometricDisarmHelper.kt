@@ -46,7 +46,7 @@ class BiometricDisarmHelper(
         )
 
         val info = BiometricPrompt.PromptInfo.Builder()
-            .setTitle("Disarma PockSecure")
+            .setTitle("Disarma Pockara")
             .setSubtitle("Conferma che sei il proprietario")
             .setAllowedAuthenticators(
                 BiometricManager.Authenticators.BIOMETRIC_STRONG
