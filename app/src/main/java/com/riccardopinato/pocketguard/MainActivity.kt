@@ -32,6 +32,7 @@ class MainActivity : FragmentActivity() {
                         factory = PocketGuardViewModel.Factory(
                             appContext = applicationContext,
                             settingsRepository = app.settingsRepository,
+                            billingRepository = app.billingRepository,
                             historyRepository = app.historyRepository,
                             securityRepository = app.securityRepository,
                             pinManager = app.pinSecurityManager
@@ -82,6 +83,9 @@ class MainActivity : FragmentActivity() {
                 } else {
                     viewModel.startGuard()
                 }
+            },
+            onBuyProRequested = {
+                viewModel.purchasePro(this)
             },
             onFlashEnableRequested = {
                 if (
