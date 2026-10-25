@@ -2,6 +2,10 @@ name: Bootstrap Pocket Guard source
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".bootstrap/trigger"
 
 permissions:
   contents: write
