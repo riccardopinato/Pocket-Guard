@@ -17,12 +17,12 @@ val hasReleaseSigning = listOf(
 
 android {
     namespace = "com.riccardopinato.pocketguard"
-    compileSdk = 37
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.riccardopinato.pocketguard"
         minSdk = 26
-        targetSdk = 37
+        targetSdk = 36
         versionCode = 3
         versionName = "0.3.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
