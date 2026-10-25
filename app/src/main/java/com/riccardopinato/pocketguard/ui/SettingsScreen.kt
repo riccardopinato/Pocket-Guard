@@ -16,6 +16,10 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -45,6 +49,37 @@ fun SettingsScreen(
     onPro: () -> Unit,
     onPrivacy: () -> Unit
 ) {
+    var showFlashDisclosure by remember { mutableStateOf(false) }
+
+    if (showFlashDisclosure) {
+        AlertDialog(
+            onDismissRequest = { showFlashDisclosure = false },
+            title = { Text("Uso del flash") },
+            text = {
+                Text(
+                    "PockSecure richiede il permesso Fotocamera esclusivamente per accendere e spegnere il flash durante l'allarme. Non scatta, registra o salva foto o video e non invia dati a server PockSecure."
+                )
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        showFlashDisclosure = false
+                        onFlash(true)
+                    }
+                ) {
+                    Text("Continua")
+                }
+            },
+            dismissButton = {
+                OutlinedButton(
+                    onClick = { showFlashDisclosure = false }
+                ) {
+                    Text("Annulla")
+                }
+            }
+        )
+    }
+
     Column(
         modifier = Modifier
             .padding(contentPadding)
@@ -159,7 +194,13 @@ fun SettingsScreen(
                     "Non disponibile su questo dispositivo."
                 },
                 settings.flashEnabled && isPro,
-                onFlash,
+                { enabled ->
+                    if (enabled) {
+                        showFlashDisclosure = true
+                    } else {
+                        onFlash(false)
+                    }
+                },
                 enabled = capabilities.hasFlash && isPro
             )
 
