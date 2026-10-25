@@ -20,9 +20,9 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@drawable/ic_stat_shield"
+        android:icon="@drawable/ic_launcher_pockara"
         android:label="Pockara"
-        android:roundIcon="@drawable/ic_stat_shield"
+        android:roundIcon="@drawable/ic_launcher_pockara"
         android:supportsRtl="true"
         android:theme="@style/Theme.PocketGuard">
 
