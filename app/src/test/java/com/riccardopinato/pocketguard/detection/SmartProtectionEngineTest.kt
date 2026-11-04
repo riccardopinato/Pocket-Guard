@@ -125,6 +125,32 @@ class SmartProtectionEngineTest {
         assertEquals(GuardState.POCKET_CONFIRMED, result.state)
     }
 
+    @Test
+    fun adaptiveShadowConsumesLiveSnapshotAndResetsOnOwnerVerification() {
+        val engine = SmartProtectionEngine(settings, profile)
+        assertTrue(!engine.sustainedMotionSignal())
+        protect(engine)
+
+        engine.process(s(1_500L, 30f, false, 0.35f, 0.90f))
+        assertTrue(!engine.sustainedMotionSignal())
+        engine.process(s(1_650L, 45f, false, 0.45f, 1.20f))
+        assertTrue(engine.sustainedMotionSignal())
+
+        engine.ownerVerified()
+        assertTrue(!engine.sustainedMotionSignal())
+    }
+
+    @Test
+    fun adaptiveShadowResetsOnConfigurationChange() {
+        val engine = SmartProtectionEngine(settings, profile)
+        protect(engine)
+        engine.process(s(1_500L, 30f, false, 0.35f, 0.90f))
+        engine.process(s(1_650L, 45f, false, 0.45f, 1.20f))
+        assertTrue(engine.sustainedMotionSignal())
+        engine.updateProfile(profile)
+        assertTrue(!engine.sustainedMotionSignal())
+    }
+
     private fun protect(engine: SmartProtectionEngine) {
         engine.process(s(0L, 2f, true, 0.01f, 0.01f))
         engine.process(s(1_250L, 2f, true, 0.01f, 0.01f))
