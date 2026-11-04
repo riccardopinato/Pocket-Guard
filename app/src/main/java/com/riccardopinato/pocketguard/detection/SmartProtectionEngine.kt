@@ -14,18 +14,63 @@ class SmartProtectionEngine(
     private var lastLux: Float? = null
     private var protectedLux: Float? = null
 
+    // Pure CAP-0158 math consumes real snapshots in shadow diagnostic mode.
+    // No alarm decision depends on the new state before physical QA.
+    private var adaptiveMotion = initialAdaptiveMotion()
+    private var lastAdaptiveTimestampMs: Long? = null
+
+    fun sustainedMotionSignal(): Boolean = adaptiveMotion.triggered
+
+    private fun initialAdaptiveMotion() = AdaptiveSignalState(
+        baseline = profile.motionNoise.toDouble()
+            .let { if (it.isFinite()) it.coerceAtLeast(0.0) else 0.0 }
+    )
+
+    private fun resetAdaptiveMotion() {
+        adaptiveMotion = initialAdaptiveMotion()
+        lastAdaptiveTimestampMs = null
+    }
+
+    private fun observeAdaptiveMotion(snapshot: SensorSnapshot) {
+        val previous = lastAdaptiveTimestampMs
+        if (!snapshot.motionScore.isFinite() ||
+            (previous != null && snapshot.timestampMs < previous)
+        ) {
+            resetAdaptiveMotion()
+            return
+        }
+        adaptiveMotion = AdaptiveSignalMath.step(
+            state = adaptiveMotion,
+            sample = snapshot.motionScore.toDouble(),
+            enterDelta = 0.12,
+            exitDelta = 0.04,
+            consecutive = 2
+        )
+        lastAdaptiveTimestampMs = snapshot.timestampMs
+    }
+
     fun currentState(): GuardState = state
 
-    fun updateSettings(value: GuardSettings) { settings = value }
-    fun updateProfile(value: CalibrationProfile) { profile = value }
+    fun updateSettings(value: GuardSettings) {
+        settings = value
+        resetAdaptiveMotion()
+    }
+    fun updateProfile(value: CalibrationProfile) {
+        profile = value
+        resetAdaptiveMotion()
+    }
 
     fun forceState(value: GuardState) {
         state = value
         pocketCandidateSince = null
         removalCandidateSince = null
+        resetAdaptiveMotion()
     }
 
     fun process(snapshot: SensorSnapshot): DetectionDecision {
+        if (state == GuardState.POCKET_CONFIRMED ||
+            state == GuardState.REMOVAL_SUSPECTED
+        ) observeAdaptiveMotion(snapshot)
         val previousLux = lastLux
         lastLux = snapshot.lux
 
@@ -45,6 +90,7 @@ class SmartProtectionEngine(
 
     fun ownerVerified(): DetectionDecision {
         protectedLux = null
+        resetAdaptiveMotion()
         return transition(
             GuardState.WAITING_FOR_POCKET,
             0,
@@ -221,6 +267,9 @@ class SmartProtectionEngine(
     ): DetectionDecision {
         val changed = newState != state
         state = newState
+        if (changed && newState == GuardState.POCKET_CONFIRMED) {
+            resetAdaptiveMotion()
+        }
         return DetectionDecision(state, changed, score, reason)
     }
 
