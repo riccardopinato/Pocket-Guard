@@ -38,3 +38,8 @@ See:
 
 - `Development checks` builds and tests debug code on push/PR.
 - `Signed Android release` is the controlled release lane and produces signed APK/AAB artifacts.
+
+
+## Template Notion — ricerca
+
+[Apri il catalogo Notion](docs/TEMPLATE_NOTION/README.md) (nessuna funzionalità dell'app attivata).
